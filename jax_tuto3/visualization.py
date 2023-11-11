@@ -19,7 +19,7 @@ def plot_dists(val_dict, color="C0", xlabel=None, stat="count", use_kde=True):
             val_dict[key],
             ax=key_ax,
             color=color,
-            bins="auto",
+            bins=50,
             stat=stat,
             kde=use_kde and ((val_dict[key].max() - val_dict[key].min()) > 1e-8),
         )  # Only plot kde if there is variance
@@ -56,7 +56,10 @@ def visualize_weight_distribution(params, color="C0"):
 
 ##############################################################
 
-def visualize_gradients(model, params, color="C0", print_variance=False):
+
+def visualize_gradients(
+    model, params, exmp_imgs, exmp_labels, color="C0", print_variance=False
+):
     """
     Inputs:
         net - Object of class BaseNetwork
@@ -94,7 +97,7 @@ def visualize_gradients(model, params, color="C0", print_variance=False):
 ##############################################################
 
 
-def visualize_activations(model, params, color="C0", print_variance=False):
+def visualize_activations(model, params, exmp_imgs, color="C0", print_variance=False):
     # Pass one batch through the network, and calculate the activations
     _, activations = model.apply(params, exmp_imgs, return_activations=True)
     activations = {
@@ -120,4 +123,3 @@ if __name__ == "__main__":
         train_set, batch_size=1024, shuffle=False, collate_fn=numpy_collate
     )
     exmp_imgs, exmp_labels = next(iter(small_loader))
-
